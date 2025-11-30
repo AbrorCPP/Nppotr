@@ -5,7 +5,7 @@ class User:
         self.seria = seria
         self.age = age
         self.password = password
-        self.is_active = False
+        self.is_active = True
         self.is_admin = False
 
 
@@ -15,7 +15,7 @@ class Car:
         self.brand = brand
         self.year = year
         self.seria = seria
-        self.is_active = False
+        self.is_active = True
 
 class Order:
     def __init__(self,user_id,car_id,date_start,date_end):
@@ -32,6 +32,23 @@ class Park:
         self.cars  =[]
         self.orders  =[]
 
+    def add_user(self):
+        username = input("Enter username: ")
+        phone = input("Enter phone: ")
+        seria = input("Enter seria: ")
+        age = input("Enter age: ")
+        password = input("Enter password: ")
+        us = User(username,phone,seria,age,password)
+        self.users.append(us)
+
+    def add_car(self):
+        model = input("Enter model: ")
+        brand = input("Enter brand: ")
+        year = input("Enter year: ")
+        seria = input("Enter seria: ")
+        car = Car(model,brand,year,seria)
+        self.cars.append(car)
+
     def show_all_cars(self):
         count = 0
         for car in self.cars:
@@ -44,17 +61,24 @@ class Park:
             count += 1
             print(f"{count}.{user.username} - {user.phone} - {user.seria} - {user.age}")
 
-    def show_cars_in_users(self):
+    def show_cars_not_users(self):
         count = 0
         for car in self.cars:
             if car.is_active:
                 count+=1
                 print(f"{count}.{car.model} - {car.brand} - {car.year} - {car.seria}")
 
+    def show_cars_in_users(self):
+        count = 0
+        for car in self.cars:
+            if not car.is_active:
+                count+=1
+                print(f"{count}.{car.model} - {car.brand} - {car.year} - {car.seria}")
+
     def show_working_users(self):
         count = 0
         for user in self.users:
-            if user.is_active:
+            if not user.is_active:
                 count+=1
                 print(f"{count}.{user.username} - {user.phone} - {user.seria} - {user.age}")
 
@@ -70,16 +94,87 @@ class Park:
             count += 1
             print(f"{count}.{user.username} - {user.phone} - {user.seria} - {user.age}")
         print("-" * 20)
+        user_id = int(input("Enter user ID: "))
+        car_id = int(input("Enter car ID: "))
+        date_start = input("Enter start date: ")
+        date_end = input("Enter end date: ")
+        order = Order(user_id,car_id,date_start,date_end)
+        self.orders.append(order)
+        count = 0
+        for car in self.cars:
+            count+=1
+            if count == car_id:
+                car.is_active = False
+        count = 0
+        for user in self.users:
+            count += 1
+            if count == user_id:
+                user.is_active = False
+    def login_screen(self):
+        print("-"*20)
+        username = input(" Enter username: ")
+        password = input(" Enter password: ")
+        print("-"*20)
+        for user in self.users:
+            if user.username == username and password == user.password and not user.is_admin:
+                print("Welcome " + user.username)
+                return 1
+            elif user.username == username and password == user.password and user.is_admin:
+                print("Welcome " + user.username)
+                return 0
+            else:
+                return 2
+        return None
 
-    def make_order(self):
-        pass
 
 park = Park("Park1")
-admin = User("admin","12345",12345,22,1111)
+admin = User("admin","12345",12345,22,"1111")
 admin.is_admin = True
 park.users.append(admin)
 
 def park_manager(p:Park):
-    pass
+    while True:
+        a = p.login_screen()
+        if a == 2:
+            print("Username or password is incorect please try again later !")
+        elif a == 1:
+            while True:
+                print("User menu")
+                b1 = input(" 1.Show cars \n 2.Change settings \n 3.Exit\n --->")
+                if b1 == "1":
+                    p.show_cars_not_users()
+                elif b1 == "2":
+                    pass
+                else:
+                    break
+        elif a == 0:
+            while True:
+                print("Admin menu")
+                b2 = input(" 1.Add menu\n 2.Show menu\n 3.Order menu\n 4.Exit\n --->")
+                if b2 == "1":
+                    while True:
+                        b3 = input(" 1.Add user\n 2.Add car\n 3.Exit\n --->")
+                        if b3 == "1":
+                            p.add_user()
+                        elif b3 == "2":
+                            p.add_car()
+                        else:
+                            break
+                elif b2 == "2":
+                    while True:
+                        b3 = input(" 1.Show all users\n 2.Show working users\n 3.Show all cars\n 4.Show cars in users\n 5.Exit\n --->")
+                        if b3 == "1":
+                            p.show_all_users()
+                        elif b3 == "2":
+                            p.show_working_users()
+                        elif b3 == "3":
+                            p.show_all_cars()
+                        elif b3 == "4":
+                            p.show_cars_in_users()
+                        else:
+                            break
+                else:
+                    break
+
 
 park_manager(park)
