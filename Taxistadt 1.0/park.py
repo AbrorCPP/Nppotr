@@ -110,6 +110,46 @@ class Park:
             count += 1
             if count == user_id:
                 user.is_active = False
+
+    def show_all_orders(self):
+        count = 0
+        for order in self.orders:
+            count += 1
+            user = self.users[order.user_id - 1]
+            car = self.cars[order.car_id - 1]
+            print(
+                f"{count}. User: {user.username} | Car: {car.model} {car.brand} | From: {order.date_start} | To: {order.date_end}")
+
+    def ignore_order(self):
+        count = 0
+        for order in self.orders:
+            count += 1
+            user = self.users[order.user_id - 1]
+            car = self.cars[order.car_id - 1]
+            print(
+                f"{count}. User: {user.username} | Car: {car.model} {car.brand} | From: {order.date_start} | To: {order.date_end}")
+
+        if count == 0:
+            print("No orders found!")
+            return
+
+        n = int(input("Enter order number to ignore: "))
+
+        if n < 1 or n > len(self.orders):
+            print("Invalid order number!")
+            return
+
+        order = self.orders[n - 1]
+        user = self.users[order.user_id - 1]
+        car = self.cars[order.car_id - 1]
+
+        user.is_active = True
+        car.is_active = True
+
+        self.orders.pop(n - 1)
+
+        print("Order ignored successfully!")
+
     def login_screen(self):
         print("-"*20)
         username = input(" Enter username: ")
