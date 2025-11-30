@@ -1,42 +1,42 @@
 class User:
     def __init__(self, username, phone, seria, age, password):
-        self.username = username
-        self.phone = phone
-        self.seria = seria
-        self.age = age
-        self.password = password
+        self.username  = username
+        self.phone     = phone
+        self.seria     = seria
+        self.age       = age
+        self.password  = password
         self.is_active = True
-        self.is_admin = False
+        self.is_admin  = False
 
 
 class Car:
     def __init__(self, model, brand, year, seria, ):
-        self.model = model
-        self.brand = brand
-        self.year = year
-        self.seria = seria
+        self.model  = model
+        self.brand  = brand
+        self.year   = year
+        self.seria  = seria
         self.is_active = True
 
 class Order:
     def __init__(self,user_id,car_id,date_start,date_end):
-        self.user_id =user_id
-        self.car_id =car_id
+        self.user_id    =user_id
+        self.car_id     =car_id
         self.date_start =date_start
-        self.date_end =date_end
-        self.is_active = True
+        self.date_end   =date_end
+        self.is_active  = True
 
 class Park:
     def __init__(self,title):
-        self.title =title
-        self.users  =[]
-        self.cars  =[]
+        self.title   =title
+        self.users   =[]
+        self.cars    =[]
         self.orders  =[]
 
     def add_user(self):
         username = input("Enter username: ")
-        phone = input("Enter phone: ")
-        seria = input("Enter seria: ")
-        age = input("Enter age: ")
+        phone =    input("Enter phone: ")
+        seria =    input("Enter seria: ")
+        age =      input("Enter age: ")
         password = input("Enter password: ")
         us = User(username,phone,seria,age,password)
         self.users.append(us)
@@ -44,7 +44,7 @@ class Park:
     def add_car(self):
         model = input("Enter model: ")
         brand = input("Enter brand: ")
-        year = input("Enter year: ")
+        year  = input("Enter year: ")
         seria = input("Enter seria: ")
         car = Car(model,brand,year,seria)
         self.cars.append(car)
@@ -65,9 +65,9 @@ class Park:
         for user1 in self.users:
             if user1.username == username and user1.password == password:
                 user1.username = input("Enter new username: ")
-                user1.phone =    input("Enter new phone: ")
-                user1.seria =    input("Enter new seria: ")
-                user1.age =      input("Enter new age: ")
+                user1.phone    = input("Enter new phone: ")
+                user1.seria    = input("Enter new seria: ")
+                user1.age      = input("Enter new age: ")
                 user1.password = input("Enter new password: ")
 
     def show_cars_not_users(self):
@@ -103,11 +103,11 @@ class Park:
             count += 1
             print(f"{count}.{user.username} - {user.phone} - {user.seria} - {user.age}")
         print("-" * 20)
-        user_id = int(input("Enter user ID: "))
-        car_id = int(input("Enter car ID: "))
+        user_id    = int(input("Enter user ID: "))
+        car_id     = int(input("Enter car ID: "))
         date_start = input("Enter start date: ")
-        date_end = input("Enter end date: ")
-        order = Order(user_id,car_id,date_start,date_end)
+        date_end   = input("Enter end date: ")
+        order      = Order(user_id,car_id,date_start,date_end)
         self.orders.append(order)
         count = 0
         for car in self.cars:
