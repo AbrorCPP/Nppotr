@@ -61,6 +61,15 @@ class Park:
             count += 1
             print(f"{count}.{user.username} - {user.phone} - {user.seria} - {user.age}")
 
+    def edit_user(self,username,password):
+        for user1 in self.users:
+            if user1.username == username and user1.password == password:
+                user1.username = input("Enter new username: ")
+                user1.phone =    input("Enter new phone: ")
+                user1.seria =    input("Enter new seria: ")
+                user1.age =      input("Enter new age: ")
+                user1.password = input("Enter new password: ")
+
     def show_cars_not_users(self):
         count = 0
         for car in self.cars:
@@ -151,20 +160,21 @@ class Park:
         print("Order ignored successfully!")
 
     def login_screen(self):
-        print("-"*20)
+        print("-" * 20)
         username = input(" Enter username: ")
         password = input(" Enter password: ")
-        print("-"*20)
-        for user in self.users:
-            if user.username == username and password == user.password and not user.is_admin:
-                print("Welcome " + user.username)
-                return 1
-            elif user.username == username and password == user.password and user.is_admin:
-                print("Welcome " + user.username)
-                return 0
-            else:
-                return 2
-        return None
+        print("-" * 20)
+
+        for user1 in self.users:
+            if user1.username == username and user1.password == password:
+                if user1.is_admin:
+                    print("Welcome " + user1.username)
+                    return 0,1,1
+                else:
+                    print("Welcome " + user1.username)
+                    return 1,username,password
+
+        return 2
 
 
 park = Park("Park1")
@@ -172,19 +182,22 @@ admin = User("admin","12345",12345,22,"1111")
 admin.is_admin = True
 park.users.append(admin)
 
+user = User("user","12345",12345,22,"1111")
+park.users.append(user)
+
 def park_manager(p:Park):
     while True:
-        a = p.login_screen()
+        a,us,pa = p.login_screen()
         if a == 2:
             print("Username or password is incorect please try again later !")
         elif a == 1:
             while True:
                 print("User menu")
-                b1 = input(" 1.Show cars \n 2.Change settings \n 3.Exit\n --->")
+                b1 = input(" 1.Show cars \n 2.Change settings \n 4.Exit\n --->")
                 if b1 == "1":
                     p.show_cars_not_users()
                 elif b1 == "2":
-                    pass
+                    p.edit_user(us,pa)
                 else:
                     break
         elif a == 0:
@@ -202,7 +215,7 @@ def park_manager(p:Park):
                             break
                 elif b2 == "2":
                     while True:
-                        b3 = input(" 1.Show all users\n 2.Show working users\n 3.Show all cars\n 4.Show cars in users\n 5.Exit\n --->")
+                        b3 = input(" 1.Show all users\n 2.Show working users\n 3.Show all cars\n 4.Show cars in users\n 5.Show orders\n 6.Exit \n --->")
                         if b3 == "1":
                             p.show_all_users()
                         elif b3 == "2":
@@ -211,6 +224,17 @@ def park_manager(p:Park):
                             p.show_all_cars()
                         elif b3 == "4":
                             p.show_cars_in_users()
+                        elif b3 == "5":
+                            p.show_all_orders()
+                        else:
+                            break
+                elif b2 == "3":
+                    while True:
+                        b3 = input(" 1.Make order\n 2.Ignore order\n 3.Exit\n --->")
+                        if b3 == "1":
+                            p.make_order()
+                        elif b3 == "2":
+                            p.ignore_order()
                         else:
                             break
                 else:
