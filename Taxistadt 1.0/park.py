@@ -169,12 +169,12 @@ class Park:
             if user1.username == username and user1.password == password:
                 if user1.is_admin:
                     print("Welcome " + user1.username)
-                    return 0,1,1
+                    return 0,username,password
                 else:
                     print("Welcome " + user1.username)
                     return 1,username,password
 
-        return 2
+        return 2,username,password
 
 
 park = Park("Park1")
