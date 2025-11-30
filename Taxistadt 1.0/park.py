@@ -189,7 +189,7 @@ def park_manager(p:Park):
     while True:
         a,us,pa = p.login_screen()
         if a == 2:
-            print("Username or password is incorect please try again later !")
+            print("Username or password is incorrect please try again later !")
         elif a == 1:
             while True:
                 print("User menu")
